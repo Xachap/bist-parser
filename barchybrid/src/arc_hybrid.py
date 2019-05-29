@@ -31,6 +31,9 @@ class ArcHybridLSTM:
         self.rlMostFlag = options.rlMostFlag
         self.rlFlag = options.rlFlag
         self.k = options.window
+        print '-------------'
+        print options.epochs
+        self.epoc = options.epochs
 
         self.nnvecs = (1 if self.headFlag else 0) + (2 if self.rlFlag or self.rlMostFlag else 0)
 
@@ -155,7 +158,8 @@ class ArcHybridLSTM:
 
 
     def Load(self, filename):
-        self.model.load(filename)
+        print filename
+        self.model.populate(filename)
 
     def Init(self):
         evec = self.elookup[1] if self.external_embedding is not None else None
@@ -406,5 +410,7 @@ class ArcHybridLSTM:
 
             renew_cg()
 
-        self.trainer.update_epoch()
+        self.trainer.update_epoch(self.epoc)
+        print '---------d'
+        print self.epoc
         print "Loss: ", mloss/iSentence
